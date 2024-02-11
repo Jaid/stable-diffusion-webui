@@ -1,11 +1,27 @@
 {
   "name": "stable-diffusion-webui",
   "version": "0.0.0",
+  "type": "module",
   "devDependencies": {
     "eslint": "^8.40.0"
   },
   "scripts": {
     "lint": "eslint .",
-    "fix": "eslint --fix ."
+    "fix": "eslint --fix .",
+    "start": "source .venv/Scripts/activate && python launch.py --no-download-sd-model --allow-code --enable-console-prompts --no-half-vae",
+    "startApi": "source .venv/Scripts/activate && python launch.py --no-download-sd-model --allow-code --enable-console-prompts --no-half-vae --api --api-log",
+    "makeVenv": "if [[ -d .venv ]]; then npm run resetVenv; fi && py -3.$npm_package_config_pythonMinor -m venv .venv && printf '*' > .venv/.gitignore && .venv/Scripts/python -m pip --require-virtualenv --disable-pip-version-check install --upgrade pip",
+    "installDependencies": "source .venv/Scripts/activate && python -m pip install --require-virtualenv --disable-pip-version-check --requirement requirements.txt --requirement requirements-more.txt --extra-index-url https://download.pytorch.org/whl/cu$npm_package_config_cudaVersion",
+    "installTensorRt": "source .venv/Scripts/activate && python -m pip install --require-virtualenv --disable-pip-version-check install nvidia-cudnn-cu11==8.9.5.29 --no-cache-dir && python -m pip install --require-virtualenv --disable-pip-version-check install --pre --extra-index-url https://pypi.nvidia.com tensorrt==9.0.1.post11.dev4 --no-cache-dir && python -m pip uninstall --require-virtualenv --disable-pip-version-check -y nvidia-cudnn-cu11",
+    "uninstallXformers": "source .venv/Scripts/activate && python -m pip uninstall --require-virtualenv --disable-pip-version-check -y xformers",
+    "resetVenv": "fse-cli rimraf .venv",
+    "build": "printf '%s\\n' 'Script behaviour not specified' >&2",
+    "test": "printf '%s\\n' 'Script behaviour not specified' >&2",
+    "env": "env",
+    "linkFiles": "node x/linkFiles.js"
+  },
+  "config": {
+    "pythonMinor": 10,
+    "cudaVersion": 121
   }
 }
